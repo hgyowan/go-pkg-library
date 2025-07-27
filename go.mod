@@ -1,6 +1,6 @@
 module github.com/hgyowan/go-pkg-library
 
-go 1.23.11
+go 1.23.3
 
 require (
 	github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.3.2
