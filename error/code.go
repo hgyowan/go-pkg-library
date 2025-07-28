@@ -16,6 +16,11 @@ const (
 	Get    Code = 10004
 	Tx     Code = 10005
 	Upsert Code = 10006
+
+	PasswordMisMatch Code = 20001
+	AgreeRequired    Code = 20002
+
+	WrongParam Code = 40001
 )
 
 var (
