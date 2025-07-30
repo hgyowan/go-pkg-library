@@ -16,4 +16,5 @@ var businessCodeMap = map[Code]Status{
 	AgreeRequired:    {int(AgreeRequired), http.StatusBadRequest, "terms agree required", nil, nil},
 	WrongParam:       {int(WrongParam), http.StatusBadRequest, "wrong parameters", nil, nil},
 	Duplicate:        {int(Duplicate), http.StatusInternalServerError, "duplicate data", nil, nil},
+	Expired:          {int(Expired), http.StatusInternalServerError, "expired data", nil, nil},
 }

@@ -19,6 +19,7 @@ const (
 
 	WrongParam Code = 40001
 	Duplicate  Code = 40002
+	Expired    Code = 40003
 
 	PasswordMisMatch Code = 50001
 	AgreeRequired    Code = 50002
