@@ -18,6 +18,7 @@ const (
 	Email Code = 30001
 
 	WrongParam Code = 40001
+	Duplicate  Code = 40002
 
 	PasswordMisMatch Code = 50001
 	AgreeRequired    Code = 50002
