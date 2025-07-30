@@ -12,8 +12,8 @@ import (
 type EmailTemplateKey int
 
 const (
-	TemplateKeyCoworkerInvite EmailTemplateKey = iota + 1
-	_mime                                      = "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+	TemplateKeyVerifyEmail EmailTemplateKey = iota + 1
+	_mime                                   = "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
 )
 
 type EmailConfig struct {
