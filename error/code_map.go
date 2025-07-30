@@ -11,6 +11,7 @@ var businessCodeMap = map[Code]Status{
 	Get:              {int(Get), http.StatusInternalServerError, "fail to get data", nil, nil},
 	Tx:               {int(Tx), http.StatusInternalServerError, "fail to start a db transaction", nil, nil},
 	Upsert:           {int(Upsert), http.StatusInternalServerError, "fail to upsert data", nil, nil},
+	Email:            {int(Email), http.StatusInternalServerError, "fail to send email", nil, nil},
 	PasswordMisMatch: {int(PasswordMisMatch), http.StatusBadRequest, "password mismatch", nil, nil},
 	AgreeRequired:    {int(AgreeRequired), http.StatusBadRequest, "terms agree required", nil, nil},
 	WrongParam:       {int(WrongParam), http.StatusBadRequest, "wrong parameters", nil, nil},

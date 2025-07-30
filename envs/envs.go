@@ -35,6 +35,12 @@ var (
 	RedisAddr     = getEnv("REDIS_ADDR", "")
 	RedisPort     = getEnv("REDIS_PORT", "6379")
 	RedisPassword = getEnv("REDIS_PASSWORD", "")
+
+	SMTPAccount  = getEnv("SMTP_ACCOUNT", "")
+	SMTPServer   = getEnv("SMTP_SERVER", "")
+	SMTPPort     = getEnv("SMTP_PORT", "587")
+	SMTPPassword = getEnv("SMTP_PASSWORD", "")
+	SMTPSender   = getEnv("SMTP_SENDER", "")
 )
 
 func getEnv(envName, defaultVal string) string {

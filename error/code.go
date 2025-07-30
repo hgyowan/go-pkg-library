@@ -1,7 +1,5 @@
 package error
 
-import "net/http"
-
 type Code int
 
 const (
@@ -17,12 +15,10 @@ const (
 	Tx     Code = 10005
 	Upsert Code = 10006
 
-	PasswordMisMatch Code = 20001
-	AgreeRequired    Code = 20002
+	Email Code = 30001
 
 	WrongParam Code = 40001
-)
 
-var (
-	OK = Status{1, http.StatusOK, "", nil, nil}
+	PasswordMisMatch Code = 50001
+	AgreeRequired    Code = 50002
 )
