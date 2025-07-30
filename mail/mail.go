@@ -33,12 +33,12 @@ type emailSender struct {
 }
 
 type EmailSender interface {
-	SendMail(from string, to []string, body []byte) error
+	SendMail(to []string, body []byte) error
 	SendMailWithTemplate(to, subject string, templateType EmailTemplateKey, templateData interface{}) error
 }
 
 // MustNewEmailSender
-// inviteTemplate, err := template.ParseFiles(templateDir + "inviteCoworkerTemplate.html")
+// inviteTemplate, err := template.ParseFiles(templateDir + "aaa.html")
 //
 //	if err != nil {
 //		pkgLogger.ZapLogger.Logger.Sugar().Fatal(err)
@@ -60,14 +60,14 @@ func MustNewEmailSender(conf *EmailConfig, templateMap map[EmailTemplateKey]*tem
 	}
 }
 
-func (e *emailSender) SendMail(from string, to []string, body []byte) error {
+func (e *emailSender) SendMail(to []string, body []byte) error {
 	emailServerAddr := e.conf.ServerHost + ":" + e.conf.ServerPort
 	auth := smtp.PlainAuth("", e.conf.Username, e.conf.Password, e.conf.ServerHost)
-	return pkgError.Wrap(e.sendFunc(emailServerAddr, auth, from, to, body))
+	return pkgError.Wrap(e.sendFunc(emailServerAddr, auth, envs.SMTPAccount, to, body))
 }
 
-func (e *emailSender) SendMailWithTemplate(to, subject string, templType EmailTemplateKey, templateData interface{}) error {
-	tmpl := e.getTemplate(templType)
+func (e *emailSender) SendMailWithTemplate(to, subject string, templateType EmailTemplateKey, templateData interface{}) error {
+	tmpl := e.getTemplate(templateType)
 	if tmpl == nil {
 		return pkgError.WrapWithCode(pkgError.EmptyBusinessError(), pkgError.Get, "no template")
 	}
@@ -81,7 +81,7 @@ func (e *emailSender) SendMailWithTemplate(to, subject string, templType EmailTe
 	fromAddress := envs.SMTPAccount
 	generatedFrom := "From: " + fromAddress + "\n"
 	generatedBody := []byte(generatedFrom + generatedSubj + _mime + "\n" + buf.String())
-	return pkgError.WrapWithCode(e.SendMail(fromAddress, []string{to}, generatedBody), pkgError.Email)
+	return pkgError.WrapWithCode(e.SendMail([]string{to}, generatedBody), pkgError.Email)
 }
 
 func (e *emailSender) getTemplate(key EmailTemplateKey) *template.Template {
