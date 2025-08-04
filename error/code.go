@@ -16,6 +16,7 @@ const (
 	Upsert Code = 10006
 
 	Email Code = 30001
+	Kakao Code = 30002
 
 	WrongParam Code = 40001
 	Duplicate  Code = 40002
@@ -25,4 +26,5 @@ const (
 	PasswordMisMatch         Code = 50001
 	AgreeRequired            Code = 50002
 	UnsupportedOAuthProvider Code = 50003
+	InvalidSSOAccount        Code = 50004
 )

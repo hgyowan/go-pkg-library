@@ -28,9 +28,10 @@ var (
 
 	CFMAPIHost = getEnv("CFM_API_HOST", "")
 
-	RedisAddr     = getEnv("REDIS_ADDR", "")
-	RedisPort     = getEnv("REDIS_PORT", "6379")
-	RedisPassword = getEnv("REDIS_PASSWORD", "")
+	RedisAddr       = getEnv("REDIS_ADDR", "")
+	RedisPort       = getEnv("REDIS_PORT", "6379")
+	RedisPassword   = getEnv("REDIS_PASSWORD", "")
+	RedisMasterName = getEnv("REDIS_MASTER_NAME", "")
 
 	SMTPAccount  = getEnv("SMTP_ACCOUNT", "")
 	SMTPServer   = getEnv("SMTP_SERVER", "")
