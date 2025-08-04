@@ -43,7 +43,8 @@ var (
 	KakaoRedirectURI  = getEnv("KAKAO_REDIRECT_URI", "")
 	KakaoClientSecret = getEnv("KAKAO_CLIENT_SECRET", "")
 
-	JwtSecret = getEnv("JWT_SECRET", "")
+	JwtAccessSecret  = getEnv("JWT_ACCESS_SECRET", "")
+	JwtRefreshSecret = getEnv("JWT_REFRESH_SECRET", "")
 )
 
 func getEnv(envName, defaultVal string) string {
