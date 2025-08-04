@@ -38,6 +38,11 @@ var (
 	SMTPPassword = getEnv("SMTP_PASSWORD", "")
 	SMTPSender   = getEnv("SMTP_SENDER", "")
 
+	KakaoGranTType    = getEnv("KAKAO_GRANT_TYPE", "")
+	KakaoClientID     = getEnv("KAKAO_CLIENT_ID", "")
+	KakaoRedirectURI  = getEnv("KAKAO_REDIRECT_URI", "")
+	KakaoClientSecret = getEnv("KAKAO_CLIENT_SECRET", "")
+
 	JwtSecret = getEnv("JWT_SECRET", "")
 )
 
