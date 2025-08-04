@@ -45,6 +45,7 @@ var (
 
 	JwtAccessSecret  = getEnv("JWT_ACCESS_SECRET", "")
 	JwtRefreshSecret = getEnv("JWT_REFRESH_SECRET", "")
+	JwtIssuer        = getEnv("JWT_ISSUER", "")
 )
 
 func getEnv(envName, defaultVal string) string {
