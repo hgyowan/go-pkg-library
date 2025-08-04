@@ -7,14 +7,10 @@ import (
 )
 
 const (
-	PrdType                      = "prd"
-	StgType                      = "stg"
-	DevType                      = "dev"
-	UserTokenHeaderName          = "x-user-auth-token"
-	UserLangCodeHeaderName       = "langCode"
-	DefaultUploadPartSize  int64 = 5 << 20 //5MiB
-	APP_ID                       = "PTL"
-	OLIM_EMAIL_DOMAIN            = "olimplanet.com"
+	PrdType             = "prd"
+	StgType             = "stg"
+	DevType             = "dev"
+	UserTokenHeaderName = "x-user-token"
 )
 
 var (
