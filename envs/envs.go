@@ -41,6 +41,8 @@ var (
 	SMTPPort     = getEnv("SMTP_PORT", "587")
 	SMTPPassword = getEnv("SMTP_PASSWORD", "")
 	SMTPSender   = getEnv("SMTP_SENDER", "")
+
+	JwtSecret = getEnv("JWT_SECRET", "")
 )
 
 func getEnv(envName, defaultVal string) string {
