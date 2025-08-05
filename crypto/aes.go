@@ -12,7 +12,7 @@ import (
 )
 
 func Encrypt(plainText string) (string, error) {
-	hash := sha256.Sum256([]byte(envs.AesSecretKey))
+	hash := sha256.Sum256([]byte(envs.SecretKey))
 	aesBlock, err := aes.NewCipher(hash[:])
 	if err != nil {
 		return "", pkgError.WrapWithCode(err, pkgError.CryptData)
@@ -33,7 +33,7 @@ func Encrypt(plainText string) (string, error) {
 }
 
 func Decrypt(cipherText []byte) (string, error) {
-	hash := sha256.Sum256([]byte(envs.AesSecretKey))
+	hash := sha256.Sum256([]byte(envs.SecretKey))
 	aesBlock, err := aes.NewCipher(hash[:])
 	if err != nil {
 		return "", pkgError.WrapWithCode(err, pkgError.CryptData)

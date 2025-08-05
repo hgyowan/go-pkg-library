@@ -10,34 +10,12 @@ import (
 	"encoding/hex"
 	"github.com/hgyowan/go-pkg-library/envs"
 	pkgError "github.com/hgyowan/go-pkg-library/error"
-	"golang.org/x/text/encoding/unicode"
-	"golang.org/x/text/transform"
 	"io"
-	"strings"
 )
-
-// utf8 디코딩
-func decodeUtf8(input []byte) (string, error) {
-	decoder := unicode.UTF8.NewDecoder()
-
-	reader := transform.NewReader(strings.NewReader(string(input)), decoder)
-
-	decoded, err := io.ReadAll(reader)
-	if err != nil {
-		return "", pkgError.WrapWithCode(err, pkgError.CryptData)
-	}
-
-	return string(decoded), nil
-}
 
 // context 기반 파생키 생성
 func deriveKey(context string, masterKey []byte) ([]byte, error) {
-	decodeMasterKey, err := decodeUtf8(masterKey)
-	if err != nil {
-		return nil, pkgError.WrapWithCode(err, pkgError.CryptData)
-	}
-
-	key := sha256.Sum256([]byte(decodeMasterKey + context))
+	key := sha256.Sum256([]byte(string(masterKey) + context))
 	return key[:], nil
 }
 
@@ -95,14 +73,14 @@ func encrypt(plainText string, context string, masterKey []byte, iv []byte) (str
 }
 
 func CBCEncrypt(plainText string) (string, error) {
-	block, err := aes.NewCipher([]byte(envs.AesSecretKey))
+	block, err := aes.NewCipher([]byte(envs.SecretKey))
 	if err != nil {
 		return "", pkgError.WrapWithCode(err, pkgError.CryptData)
 	}
 
 	paddedText := pkcs7Pad([]byte(plainText), block.BlockSize())
 
-	iv, err := hex.DecodeString(envs.AesSecretIVKey)
+	iv, err := hex.DecodeString(envs.CBCSecretIVKey)
 	if err != nil {
 		return "", pkgError.WrapWithCode(err, pkgError.CryptData)
 	}
@@ -115,7 +93,7 @@ func CBCEncrypt(plainText string) (string, error) {
 }
 
 func CBCDecrypt(cipherText string) (string, error) {
-	block, err := aes.NewCipher([]byte(envs.AesSecretKey))
+	block, err := aes.NewCipher([]byte(envs.SecretKey))
 	if err != nil {
 		return "", pkgError.WrapWithCode(err, pkgError.CryptData)
 	}
@@ -125,7 +103,7 @@ func CBCDecrypt(cipherText string) (string, error) {
 		return "", pkgError.WrapWithCode(err, pkgError.CryptData)
 	}
 
-	iv, err := hex.DecodeString(envs.AesSecretIVKey)
+	iv, err := hex.DecodeString(envs.CBCSecretIVKey)
 	if err != nil {
 		return "", pkgError.WrapWithCode(err, pkgError.CryptData)
 	}
@@ -142,7 +120,7 @@ func CBCDecrypt(cipherText string) (string, error) {
 // 암호화 (IV + 암호문 → Base64 인코딩)
 func CBCEncryptWithFixedKey(plainText string, context string, masterKey []byte) (string, error) {
 	iv := make([]byte, aes.BlockSize)
-	copy(iv, envs.AesSecretIVKey)
+	copy(iv, envs.CBCSecretIVKey)
 
 	return encrypt(plainText, context, masterKey, iv)
 }
