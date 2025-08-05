@@ -48,6 +48,7 @@ var (
 	JwtRefreshSecret = getEnv("JWT_REFRESH_SECRET", "")
 	JwtIssuer        = getEnv("JWT_ISSUER", "")
 
+	MasterKey      = getEnv("MASTER_KEY", "")
 	SecretKey      = getEnv("SECRET_KEY", "")
 	CBCSecretIVKey = getEnv("CBC_SECRET_IV_KEY", "")
 )
