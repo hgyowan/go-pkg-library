@@ -51,6 +51,11 @@ var (
 	MasterKey      = getEnv("MASTER_KEY", "")
 	SecretKey      = getEnv("SECRET_KEY", "")
 	CBCSecretIVKey = getEnv("CBC_SECRET_IV_KEY", "")
+
+	ZinSearchHost     = getEnv("ZINC_SEARCH_HOST", "")
+	ZinSearchPort     = getEnv("ZINC_SEARCH_PORT", "")
+	ZinSearchUserName = getEnv("ZINC_SEARCH_USERNAME", "")
+	ZinSearchPassword = getEnv("ZINC_SEARCH_PASSWORD", "")
 )
 
 func getEnv(envName, defaultVal string) string {

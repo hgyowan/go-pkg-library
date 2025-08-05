@@ -3,6 +3,7 @@ package grpc
 import (
 	"github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/retry"
 	"github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/timeout"
+	pkgLogger "github.com/hgyowan/go-pkg-library/logger"
 	"time"
 
 	"google.golang.org/grpc"
@@ -31,7 +32,7 @@ func MustNewGRPCClient(address string) *grpc.ClientConn {
 	)
 
 	if err != nil {
-		panic(err)
+		pkgLogger.ZapLogger.Logger.Fatal(err.Error())
 	}
 	return conn
 }
