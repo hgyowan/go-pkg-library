@@ -1,10 +1,7 @@
 package model
 
-import "sync"
-
 type Mappings struct {
 	Properties map[string]Property `json:"properties,omitempty"`
-	lock       sync.RWMutex
 }
 
 type Property struct {

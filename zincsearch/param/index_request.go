@@ -13,3 +13,13 @@ type IndexListRequest struct {
 type IndexListResponse struct {
 	List []*model.Index `json:"list"`
 }
+
+type IndexUpdateMappingRequest struct {
+	IndexName string          `json:"index_name"`
+	Mappings  *model.Mappings `json:"mappings"`
+}
+
+type IndexUpdateSettingsRequest struct {
+	IndexName string               `json:"index_name"`
+	Settings  *model.IndexSettings `json:"settings"`
+}

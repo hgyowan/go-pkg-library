@@ -2,10 +2,6 @@ package model
 
 import "time"
 
-type Records struct {
-	Docs map[string]interface{} `json:"docs"`
-}
-
 type Document struct {
 	Key string      `json:"key"`
 	Val interface{} `json:"val"`

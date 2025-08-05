@@ -11,19 +11,20 @@ import (
 
 type Index interface {
 	Create(index *model.Index) error
-	Update(index *model.Index) error
+	UpdateMappings(request *param.IndexUpdateMappingRequest) error
+	UpdateSettings(request *param.IndexUpdateSettingsRequest) error
 	Delete(indexName string) error
 	List(request *param.IndexListRequest) (*param.IndexListResponse, error)
 	Exists(indexName string) (bool, error)
 }
 
 type zinSearchIndex struct {
-	cli        *resty.Request
-	errHandler func(body io.ReadCloser) error
+	zinSearchCli *resty.Request
+	errHandler   func(body io.ReadCloser) error
 }
 
 func (z *zinSearchIndex) Create(index *model.Index) error {
-	res, err := z.cli.SetBody(index).Post("/index")
+	res, err := z.zinSearchCli.SetBody(index).Post("/index")
 	if err != nil {
 		return pkgError.Wrap(err)
 	}
@@ -35,8 +36,21 @@ func (z *zinSearchIndex) Create(index *model.Index) error {
 	return nil
 }
 
-func (z *zinSearchIndex) Update(index *model.Index) error {
-	res, err := z.cli.SetBody(index).Put("/index")
+func (z *zinSearchIndex) UpdateMappings(request *param.IndexUpdateMappingRequest) error {
+	res, err := z.zinSearchCli.SetBody(request.Mappings).Put("/" + request.IndexName + "/_mapping")
+	if err != nil {
+		return pkgError.Wrap(err)
+	}
+
+	if res.StatusCode() != 200 {
+		return pkgError.Wrap(z.errHandler(res.Body))
+	}
+
+	return nil
+}
+
+func (z *zinSearchIndex) UpdateSettings(request *param.IndexUpdateSettingsRequest) error {
+	res, err := z.zinSearchCli.SetBody(request.Settings).Put("/" + request.IndexName + "/_settings")
 	if err != nil {
 		return pkgError.Wrap(err)
 	}
@@ -49,7 +63,7 @@ func (z *zinSearchIndex) Update(index *model.Index) error {
 }
 
 func (z *zinSearchIndex) Delete(indexName string) error {
-	res, err := z.cli.Delete("/index/" + indexName)
+	res, err := z.zinSearchCli.Delete("/index/" + indexName)
 	if err != nil {
 		return pkgError.Wrap(err)
 	}
@@ -84,7 +98,7 @@ func (z *zinSearchIndex) List(request *param.IndexListRequest) (*param.IndexList
 	}
 
 	var resp *param.IndexListResponse
-	res, err := z.cli.
+	res, err := z.zinSearchCli.
 		SetQueryParams(queryParams).
 		SetResult(&resp).
 		Get("/index")
@@ -100,7 +114,7 @@ func (z *zinSearchIndex) List(request *param.IndexListRequest) (*param.IndexList
 }
 
 func (z *zinSearchIndex) Exists(indexName string) (bool, error) {
-	res, err := z.cli.Get("/index/" + indexName)
+	res, err := z.zinSearchCli.Get("/index/" + indexName)
 	if err != nil {
 		return false, pkgError.Wrap(err)
 	}
@@ -114,7 +128,7 @@ func (z *zinSearchIndex) Exists(indexName string) (bool, error) {
 
 func (z *zincSearch) Index() Index {
 	return &zinSearchIndex{
-		cli:        z.cli,
-		errHandler: z.errHandler,
+		zinSearchCli: z.cli,
+		errHandler:   z.errHandler,
 	}
 }
