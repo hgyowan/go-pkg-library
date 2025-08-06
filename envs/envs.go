@@ -52,10 +52,10 @@ var (
 	SecretKey      = getEnv("SECRET_KEY", "")
 	CBCSecretIVKey = getEnv("CBC_SECRET_IV_KEY", "")
 
-	ZinSearchHost     = getEnv("ZINC_SEARCH_HOST", "")
-	ZinSearchPort     = getEnv("ZINC_SEARCH_PORT", "")
-	ZinSearchUserName = getEnv("ZINC_SEARCH_USERNAME", "")
-	ZinSearchPassword = getEnv("ZINC_SEARCH_PASSWORD", "")
+	ZincSearchHost     = getEnv("ZINC_SEARCH_HOST", "")
+	ZincSearchPort     = getEnv("ZINC_SEARCH_PORT", "")
+	ZincSearchUserName = getEnv("ZINC_SEARCH_USERNAME", "")
+	ZincSearchPassword = getEnv("ZINC_SEARCH_PASSWORD", "")
 )
 
 func getEnv(envName, defaultVal string) string {

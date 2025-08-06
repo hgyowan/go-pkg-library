@@ -11,10 +11,10 @@ import (
 
 func Test_ZincSearchIndex(t *testing.T) {
 	zs := MustNewZincSearch(context.Background(), &ZinSearchConfig{
-		Host:     envs.ZinSearchHost,
-		Port:     envs.ZinSearchPort,
-		Username: envs.ZinSearchUserName,
-		Password: envs.ZinSearchPassword,
+		Host:     envs.ZincSearchHost,
+		Port:     envs.ZincSearchPort,
+		Username: envs.ZincSearchUserName,
+		Password: envs.ZincSearchPassword,
 	})
 
 	err := zs.Index().Create(&model.Index{
@@ -71,10 +71,10 @@ func Test_ZincSearchIndex(t *testing.T) {
 
 func Test_ZincSearchDocument(t *testing.T) {
 	zs := MustNewZincSearch(context.Background(), &ZinSearchConfig{
-		Host:     envs.ZinSearchHost,
-		Port:     envs.ZinSearchPort,
-		Username: envs.ZinSearchUserName,
-		Password: envs.ZinSearchPassword,
+		Host:     envs.ZincSearchHost,
+		Port:     envs.ZincSearchPort,
+		Username: envs.ZincSearchUserName,
+		Password: envs.ZincSearchPassword,
 	})
 
 	err := zs.Document("test").Create(&param.DocumentCreateRequest{
