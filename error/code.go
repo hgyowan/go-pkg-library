@@ -28,4 +28,5 @@ const (
 	AgreeRequired            Code = 50002
 	UnsupportedOAuthProvider Code = 50003
 	InvalidSSOAccount        Code = 50004
+	InvalidPassword          Code = 50005
 )
