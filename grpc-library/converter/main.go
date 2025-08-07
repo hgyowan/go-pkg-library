@@ -38,7 +38,7 @@ func generateClientCode(plugin *protogen.Plugin, service *protogen.Service, file
 	clientFile.P(")")
 
 	clientFile.P("func ", service.GoName, "ClientProvider() ", service.GoName, "Client {")
-	clientFile.P("\tconn := pkgLibrary.MustNewGRPCClient(envs.CFMAPIHost)")
+	clientFile.P("\tconn := pkgLibrary.MustNewGRPCClient(envs.CFMAccountGRPC)")
 	clientFile.P("\treturn New", service.GoName, "Client(conn)")
 	clientFile.P("}")
 
