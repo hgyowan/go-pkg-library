@@ -29,4 +29,5 @@ const (
 	UnsupportedOAuthProvider Code = 50003
 	InvalidSSOAccount        Code = 50004
 	InvalidPassword          Code = 50005
+	AlreadyExistsEmail       Code = 50006
 )
