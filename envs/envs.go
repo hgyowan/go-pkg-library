@@ -8,8 +8,8 @@ import (
 
 const (
 	PrdType             = "prd"
-	StgType             = "stg"
 	DevType             = "dev"
+	LocalType           = "local"
 	UserTokenHeaderName = "x-user-token"
 )
 
