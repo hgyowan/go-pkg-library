@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"google.golang.org/grpc/metadata"
-	"strconv"
 )
 
 type DefaultContext struct {
@@ -16,7 +15,7 @@ type DefaultContext struct {
 }
 
 type ContextData struct {
-	UserID      uint
+	UserID      string
 	RequestID   string
 	AccessToken string
 	IP          string
@@ -83,18 +82,12 @@ func OutgoingContext(ctx context.Context, option ...Option) *DefaultContext {
 
 func (dc *DefaultContext) UserID() *DefaultContext {
 	if md, ok := metadata.FromIncomingContext(dc.Context); ok {
-		v := md.Get("user_id")
+		v := md.Get("userID")
 		if len(v) > 0 {
-			userID, err := strconv.ParseUint(v[0], 10, 64)
-			if err != nil {
-				dc.Error(errors.New("user_id is not a valid uint"))
-				return dc
-			}
-
-			dc.contextData.UserID = uint(userID)
+			dc.contextData.UserID = v[0]
 		} else {
 			if dc.valid.ValidUserID {
-				dc.Error(errors.New("user_id is not supplied"))
+				dc.Error(errors.New("userID is not supplied"))
 			}
 		}
 	}
@@ -103,25 +96,25 @@ func (dc *DefaultContext) UserID() *DefaultContext {
 }
 
 func (dc *DefaultContext) AddUserID(userID string) *DefaultContext {
-	dc.Context = metadata.AppendToOutgoingContext(dc.Context, "user_id", userID)
+	dc.Context = metadata.AppendToOutgoingContext(dc.Context, "userID", userID)
 
 	return dc
 }
 
 func (dc *DefaultContext) AddRequestId(requestId string) *DefaultContext {
-	dc.Context = metadata.AppendToOutgoingContext(dc.Context, "request_id", requestId)
+	dc.Context = metadata.AppendToOutgoingContext(dc.Context, "requestID", requestId)
 
 	return dc
 }
 
 func (dc *DefaultContext) RequestId() *DefaultContext {
 	if md, ok := metadata.FromIncomingContext(dc.Context); ok {
-		v := md.Get("request_id")
+		v := md.Get("requestID")
 		if len(v) > 0 {
 			dc.contextData.RequestID = v[0]
 		} else {
 			if dc.valid.ValidRequestID {
-				dc.Error(errors.New("request_id is not supplied"))
+				dc.Error(errors.New("requestID is not supplied"))
 			}
 		}
 	}
@@ -131,12 +124,12 @@ func (dc *DefaultContext) RequestId() *DefaultContext {
 
 func (dc *DefaultContext) AccessToken() *DefaultContext {
 	if md, ok := metadata.FromIncomingContext(dc.Context); ok {
-		v := md.Get("access_token")
+		v := md.Get("accessToken")
 		if len(v) > 0 {
 			dc.contextData.AccessToken = v[0]
 		} else {
 			if dc.valid.ValidUserID {
-				dc.Error(errors.New("access_token is not supplied"))
+				dc.Error(errors.New("accessToken is not supplied"))
 			}
 		}
 	}
@@ -145,7 +138,7 @@ func (dc *DefaultContext) AccessToken() *DefaultContext {
 }
 
 func (dc *DefaultContext) AddAccessToken(accessToken string) *DefaultContext {
-	dc.Context = metadata.AppendToOutgoingContext(dc.Context, "access_token", accessToken)
+	dc.Context = metadata.AppendToOutgoingContext(dc.Context, "accessToken", accessToken)
 
 	return dc
 }
@@ -167,12 +160,12 @@ func (dc *DefaultContext) IP() *DefaultContext {
 
 func (dc *DefaultContext) UserAgent() *DefaultContext {
 	if md, ok := metadata.FromIncomingContext(dc.Context); ok {
-		v := md.Get("user_agent")
+		v := md.Get("userAgent")
 		if len(v) > 0 {
 			dc.contextData.UserAgent = v[0]
 		} else {
 			if dc.valid.ValidUserAgent {
-				dc.Error(errors.New("user_agent is not supplied"))
+				dc.Error(errors.New("userAgent is not supplied"))
 			}
 		}
 	}
