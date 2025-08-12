@@ -91,8 +91,9 @@ func MustInitZapLogger() {
 		),
 	)
 
-	l := zap.New(core)
-	fileL := zap.New(fileCore)
+	named := fmt.Sprintf("%s-%s", envs.ServerName, envs.ServiceType)
+	l := zap.New(core).Named(named)
+	fileL := zap.New(fileCore).Named(named)
 	ZapLogger = &logger{Logger: l, FileLogger: fileL, GormLogger: &gormLogger{
 		Logger:                l,
 		SkipErrRecordNotFound: true,
