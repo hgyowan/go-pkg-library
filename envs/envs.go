@@ -29,6 +29,7 @@ var (
 	CFMAPIHost     = getEnv("CFM_API_HOST", "")
 	CFMCoreGRPC    = getEnv("CFM_CORE_GRPC", "")
 	CFMAccountGRPC = getEnv("CFM_ACCOUNT_GRPC", "")
+	CFMHost        = getEnv("CFM_HOST", "")
 
 	RedisAddr       = getEnv("REDIS_ADDR", "")
 	RedisPort       = getEnv("REDIS_PORT", "6379")
