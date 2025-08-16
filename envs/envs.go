@@ -40,6 +40,7 @@ var (
 	SMTPPort     = getEnv("SMTP_PORT", "587")
 	SMTPPassword = getEnv("SMTP_PASSWORD", "")
 	SMTPSender   = getEnv("SMTP_SENDER", "")
+	NASTLSHost   = getEnv("NAS_TLS_HOST", "")
 
 	KakaoGranTType    = getEnv("KAKAO_GRANT_TYPE", "")
 	KakaoClientID     = getEnv("KAKAO_CLIENT_ID", "")
