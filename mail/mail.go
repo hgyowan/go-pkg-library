@@ -78,7 +78,7 @@ func (e *emailSender) SendMailWithTemplate(to, subject string, templateType Emai
 	if err := tmpl.Execute(buf, templateData); err != nil {
 		return pkgError.WrapWithCode(err, pkgError.Get)
 	}
-	fromAddress := envs.SMTPAccount
+	fromAddress := envs.SMTPSender
 	generatedFrom := "From: " + fromAddress + "\n"
 	generatedBody := []byte(generatedFrom + generatedSubj + _mime + "\n" + buf.String())
 	return pkgError.WrapWithCode(e.SendMail([]string{to}, generatedBody), pkgError.Email)
