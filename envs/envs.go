@@ -60,6 +60,13 @@ var (
 	ZincSearchPort     = getEnv("ZINC_SEARCH_PORT", "")
 	ZincSearchUserName = getEnv("ZINC_SEARCH_USERNAME", "")
 	ZincSearchPassword = getEnv("ZINC_SEARCH_PASSWORD", "")
+
+	StorageUsername = getEnv("STORAGE_USERNAME", "")
+	StoragePassword = getEnv("STORAGE_PASSWORD", "")
+	StorageHost     = getEnv("STORAGE_HOST", "")
+	
+	PublicBucket = getEnv("PUBLIC_BUCKET", "")
+	CFMBucket    = getEnv("CFM_BUCKET", "")
 )
 
 func getEnv(envName, defaultVal string) string {
