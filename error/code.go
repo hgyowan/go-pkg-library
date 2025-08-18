@@ -30,4 +30,6 @@ const (
 	InvalidSSOAccount        Code = 50004
 	InvalidPassword          Code = 50005
 	AlreadyExistsEmail       Code = 50006
+
+	InvalidFileType Code = 60001
 )

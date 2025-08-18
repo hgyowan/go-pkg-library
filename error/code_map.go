@@ -23,4 +23,5 @@ var businessCodeMap = map[Code]Status{
 	Duplicate:                {int(Duplicate), http.StatusInternalServerError, "duplicate data", nil, nil},
 	Expired:                  {int(Expired), http.StatusInternalServerError, "expired data", nil, nil},
 	NotFound:                 {int(NotFound), http.StatusNotFound, "not found data", nil, nil},
+	InvalidFileType:          {int(InvalidFileType), http.StatusBadRequest, "invalid file type", nil, nil},
 }
