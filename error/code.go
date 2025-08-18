@@ -15,8 +15,9 @@ const (
 	Tx     Code = 10005
 	Upsert Code = 10006
 
-	Email Code = 30001
-	Kakao Code = 30002
+	Email   Code = 30001
+	Kakao   Code = 30002
+	OdCloud Code = 30003
 
 	WrongParam Code = 40001
 	Duplicate  Code = 40002

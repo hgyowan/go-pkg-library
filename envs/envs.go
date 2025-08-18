@@ -64,9 +64,11 @@ var (
 	StorageUsername = getEnv("STORAGE_USERNAME", "")
 	StoragePassword = getEnv("STORAGE_PASSWORD", "")
 	StorageHost     = getEnv("STORAGE_HOST", "")
-	
+
 	PublicBucket = getEnv("PUBLIC_BUCKET", "")
 	CFMBucket    = getEnv("CFM_BUCKET", "")
+
+	OdCloudServiceKey = getEnv("ODCLOUD_SERVICE_KEY", "")
 )
 
 func getEnv(envName, defaultVal string) string {

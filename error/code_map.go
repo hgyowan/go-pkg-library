@@ -13,6 +13,7 @@ var businessCodeMap = map[Code]Status{
 	Upsert:                   {int(Upsert), http.StatusInternalServerError, "fail to upsert data", nil, nil},
 	Email:                    {int(Email), http.StatusInternalServerError, "fail to send email", nil, nil},
 	Kakao:                    {int(Kakao), http.StatusBadGateway, "fail to request kakao", nil, nil},
+	OdCloud:                  {int(OdCloud), http.StatusBadGateway, "fail to request odcloud", nil, nil},
 	PasswordMisMatch:         {int(PasswordMisMatch), http.StatusBadRequest, "password mismatch", nil, nil},
 	AgreeRequired:            {int(AgreeRequired), http.StatusBadRequest, "terms agree required", nil, nil},
 	UnsupportedOAuthProvider: {int(UnsupportedOAuthProvider), http.StatusBadRequest, "unsupported oauth provider", nil, nil},
