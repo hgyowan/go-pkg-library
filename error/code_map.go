@@ -25,4 +25,5 @@ var businessCodeMap = map[Code]Status{
 	Expired:                  {int(Expired), http.StatusInternalServerError, "expired data", nil, nil},
 	NotFound:                 {int(NotFound), http.StatusNotFound, "not found data", nil, nil},
 	InvalidFileType:          {int(InvalidFileType), http.StatusBadRequest, "invalid file type", nil, nil},
+	MisMatchOwnerName:        {int(MisMatchOwnerName), http.StatusInternalServerError, "mismatch owner name", nil, nil},
 }

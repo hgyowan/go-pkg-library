@@ -33,4 +33,6 @@ const (
 	AlreadyExistsEmail       Code = 50006
 
 	InvalidFileType Code = 60001
+
+	MisMatchOwnerName Code = 70001
 )
