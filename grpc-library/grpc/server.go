@@ -33,10 +33,11 @@ func MustNewGRPCServer() GrpcServer {
 
 	srv := grpc.NewServer(
 		grpc.ChainUnaryInterceptor(
-			CustomErrorInterceptor,
+			CustomErrorUnaryInterceptor,
 			recovery.UnaryServerInterceptor(),
 		),
 		grpc.ChainStreamInterceptor(
+			CustomErrorStreamInterceptor,
 			recovery.StreamServerInterceptor(),
 		),
 		grpc.KeepaliveEnforcementPolicy(keepalive.EnforcementPolicy{

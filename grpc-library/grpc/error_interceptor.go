@@ -11,7 +11,7 @@ import (
 	"net/http"
 )
 
-func CustomErrorInterceptor(
+func CustomErrorUnaryInterceptor(
 	ctx context.Context,
 	req interface{},
 	info *grpc.UnaryServerInfo,
@@ -34,4 +34,26 @@ func CustomErrorInterceptor(
 		return nil, status.Errorf(codes.Internal, string(b))
 	}
 	return resp, nil
+}
+
+func CustomErrorStreamInterceptor(
+	srv any, req grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler,
+) (err error) {
+	err = handler(srv, req)
+	if err != nil {
+		pkgLogger.ZapLogger.Logger.Error(err.Error())
+		castedErr, ok := pkgError.CastBusinessError(err)
+		if ok {
+			b, _ := json.Marshal(castedErr.Status)
+			return status.Errorf(codes.Internal, string(b))
+		}
+
+		b, _ := json.Marshal(pkgError.Status{
+			Code:           int(pkgError.None),
+			HttpStatusCode: http.StatusInternalServerError,
+			Message:        err.Error(),
+		})
+		return status.Errorf(codes.Internal, string(b))
+	}
+	return nil
 }
