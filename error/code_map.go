@@ -24,6 +24,8 @@ var businessCodeMap = map[Code]Status{
 	Duplicate:                {int(Duplicate), http.StatusInternalServerError, "duplicate data", nil, nil},
 	Expired:                  {int(Expired), http.StatusInternalServerError, "expired data", nil, nil},
 	NotFound:                 {int(NotFound), http.StatusNotFound, "not found data", nil, nil},
+	CryptData:                {int(CryptData), http.StatusInternalServerError, "fail to crypto", nil, nil},
+	Permission:               {int(Permission), http.StatusForbidden, "access denied", nil, nil},
 	InvalidFileType:          {int(InvalidFileType), http.StatusBadRequest, "invalid file type", nil, nil},
 	MisMatchOwnerName:        {int(MisMatchOwnerName), http.StatusInternalServerError, "mismatch owner name", nil, nil},
 }

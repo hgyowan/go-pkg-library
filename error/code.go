@@ -24,6 +24,7 @@ const (
 	Expired    Code = 40003
 	NotFound   Code = 40004
 	CryptData  Code = 40005
+	Permission Code = 40006
 
 	PasswordMisMatch         Code = 50001
 	AgreeRequired            Code = 50002
