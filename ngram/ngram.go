@@ -31,7 +31,7 @@ func tokenizeNgram(input string, minGram, maxGram int) []string {
 	return lo.Uniq(tokens)
 }
 
-func hmacToken(token string) string {
+func HmacToken(token string) string {
 	h := hmac.New(sha256.New, []byte(envs.SecretKey))
 	h.Write([]byte(token))
 	return hex.EncodeToString(h.Sum(nil))
@@ -48,7 +48,7 @@ func GenerateHmacTokens(input string) []string {
 
 	var encrypted []string
 	for _, t := range tokens {
-		encrypted = append(encrypted, hmacToken(t))
+		encrypted = append(encrypted, HmacToken(t))
 	}
 	return encrypted
 }
