@@ -21,3 +21,11 @@ func GetSafeNaNValue(value float64) float64 {
 
 	return value
 }
+
+func ToSortableNumber(name string) int64 {
+	var sum int64
+	for _, r := range name {
+		sum = sum*1000 + int64(r)
+	}
+	return sum
+}
