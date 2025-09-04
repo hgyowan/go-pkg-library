@@ -2,14 +2,19 @@ package grpc
 
 import (
 	"context"
+	"errors"
 	"github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/recovery"
 	"github.com/hgyowan/go-pkg-library/envs"
+	pkgError "github.com/hgyowan/go-pkg-library/error"
 	pkgLogger "github.com/hgyowan/go-pkg-library/logger"
 	"github.com/oklog/run"
+	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/grpc/keepalive"
 	"net"
+	"os"
+	"os/signal"
 	"strings"
 	"syscall"
 	"time"
@@ -71,18 +76,41 @@ func (s *server) Serve(ctx context.Context, port string) {
 	g.Add(func() error {
 		l, err := net.Listen("tcp", port)
 		if err != nil {
-			return err
+			return pkgError.Wrap(errors.New("failed to listen: " + err.Error()))
 		}
 		return s.srv.Serve(l)
 
 	}, func(err error) {
-		s.srv.GracefulStop()
-		s.srv.Stop()
+		done := make(chan struct{})
+		go func() {
+			s.srv.GracefulStop()
+			close(done)
+		}()
+
+		select {
+		case <-done:
+			pkgLogger.ZapLogger.Logger.Info("gRPC server stopped gracefully")
+		case <-time.After(10 * time.Second):
+			pkgLogger.ZapLogger.Logger.Warn("Graceful stop timed out, forcing stop")
+			s.srv.Stop()
+		}
 	})
 
-	g.Add(run.SignalHandler(ctx, syscall.SIGINT, syscall.SIGTERM))
+	g.Add(func() error {
+		sigCh := make(chan os.Signal, 1)
+		signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		case sig := <-sigCh:
+			pkgLogger.ZapLogger.Logger.Info("caught signal", zap.String("signal", sig.String()))
+			return nil
+		}
+	}, func(err error) {
+	})
+
 	if err := g.Run(); err != nil {
-		pkgLogger.ZapLogger.Logger.Info("error serving grpc")
+		pkgLogger.ZapLogger.Logger.Error("gRPC server exited with error", zap.Error(err))
 	}
 }
 
