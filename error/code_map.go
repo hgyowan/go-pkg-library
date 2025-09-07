@@ -26,6 +26,7 @@ var businessCodeMap = map[Code]Status{
 	NotFound:                 {int(NotFound), http.StatusNotFound, "not found data", nil, nil},
 	CryptData:                {int(CryptData), http.StatusInternalServerError, "fail to crypto", nil, nil},
 	Permission:               {int(Permission), http.StatusForbidden, "access denied", nil, nil},
+	NotEmpty:                 {int(NotEmpty), http.StatusInternalServerError, "not empty", nil, nil},
 	InvalidFileType:          {int(InvalidFileType), http.StatusBadRequest, "invalid file type", nil, nil},
 	MisMatchOwnerName:        {int(MisMatchOwnerName), http.StatusInternalServerError, "mismatch owner name", nil, nil},
 }
