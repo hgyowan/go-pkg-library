@@ -27,7 +27,7 @@ var businessCodeMap = map[Code]Status{
 	CryptData:                {int(CryptData), http.StatusInternalServerError, "fail to crypto", nil, nil},
 	Permission:               {int(Permission), http.StatusForbidden, "access denied", nil, nil},
 	CanNotEmpty:              {int(CanNotEmpty), http.StatusInternalServerError, "can not empty", nil, nil},
-	AlreadyExists:            {int(AlreadyExist), http.StatusInternalServerError, "already exists", nil, nil},
+	AlreadyExists:            {int(AlreadyExists), http.StatusInternalServerError, "already exists", nil, nil},
 	InvalidFileType:          {int(InvalidFileType), http.StatusBadRequest, "invalid file type", nil, nil},
 	MisMatchOwnerName:        {int(MisMatchOwnerName), http.StatusInternalServerError, "mismatch owner name", nil, nil},
 }
