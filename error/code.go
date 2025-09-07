@@ -19,13 +19,14 @@ const (
 	Kakao   Code = 30002
 	OdCloud Code = 30003
 
-	WrongParam Code = 40001
-	Duplicate  Code = 40002
-	Expired    Code = 40003
-	NotFound   Code = 40004
-	CryptData  Code = 40005
-	Permission Code = 40006
-	NotEmpty   Code = 40007
+	WrongParam    Code = 40001
+	Duplicate     Code = 40002
+	Expired       Code = 40003
+	NotFound      Code = 40004
+	CryptData     Code = 40005
+	Permission    Code = 40006
+	CanNotEmpty   Code = 40007
+	AlreadyExists Code = 40008
 
 	PasswordMisMatch         Code = 50001
 	AgreeRequired            Code = 50002
