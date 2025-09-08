@@ -26,10 +26,11 @@ var (
 	DBUser     = getEnv("DB_USER", "")
 	DBPassword = getEnv("DB_PASSWORD", "")
 
-	CFMAPIHost     = getEnv("CFM_API_HOST", "")
-	CFMCoreGRPC    = getEnv("CFM_CORE_GRPC", "")
-	CFMAccountGRPC = getEnv("CFM_ACCOUNT_GRPC", "")
-	CFMHost        = getEnv("CFM_HOST", "")
+	CFMAPIHost      = getEnv("CFM_API_HOST", "")
+	CFMCoreGRPC     = getEnv("CFM_CORE_GRPC", "")
+	CFMAccountGRPC  = getEnv("CFM_ACCOUNT_GRPC", "")
+	CFMHost         = getEnv("CFM_HOST", "")
+	CFMCookieDomain = getEnv("CFM_COOKIE_DOMAIN", "")
 
 	RedisAddr       = getEnv("REDIS_ADDR", "")
 	RedisPort       = getEnv("REDIS_PORT", "6379")
