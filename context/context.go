@@ -20,6 +20,7 @@ type ContextData struct {
 	AccessToken string
 	IP          string
 	UserAgent   string
+	SessionID   string
 	error       error
 }
 
@@ -29,6 +30,7 @@ type ContextValidOption struct {
 	ValidAccessToken bool
 	ValidIP          bool
 	ValidUserAgent   bool
+	ValidSessionID   bool
 }
 
 func (cc *ContextValidOption) Apply(defaultContext *DefaultContext) {
@@ -38,6 +40,7 @@ func (cc *ContextValidOption) Apply(defaultContext *DefaultContext) {
 		defaultContext.valid.ValidAccessToken = cc.ValidAccessToken
 		defaultContext.valid.ValidIP = cc.ValidIP
 		defaultContext.valid.ValidUserAgent = cc.ValidUserAgent
+		defaultContext.valid.ValidSessionID = cc.ValidSessionID
 	}
 }
 
@@ -166,6 +169,21 @@ func (dc *DefaultContext) UserAgent() *DefaultContext {
 		} else {
 			if dc.valid.ValidUserAgent {
 				dc.Error(errors.New("userAgent is not supplied"))
+			}
+		}
+	}
+
+	return dc
+}
+
+func (dc *DefaultContext) SessionID() *DefaultContext {
+	if md, ok := metadata.FromIncomingContext(dc.Context); ok {
+		v := md.Get("SessionID")
+		if len(v) > 0 {
+			dc.contextData.SessionID = v[0]
+		} else {
+			if dc.valid.ValidSessionID {
+				dc.Error(errors.New("SessionID is not supplied"))
 			}
 		}
 	}
