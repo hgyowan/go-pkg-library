@@ -138,17 +138,17 @@ func Test_ZincSearchEsDocument(t *testing.T) {
 							"name": ngram.HmacToken("김"),
 						},
 					},
-					{
-						Match: map[string]string{
-							"name_order": "44655610160",
-						},
-					},
 				},
 				Filter: nil,
 			},
 		},
 		From: 0,
 		Size: 10,
+		Sort: []map[string]string{
+			{
+				"name_order": "asc",
+			},
+		},
 	})
 	require.NoError(t, err)
 	t.Log(res)

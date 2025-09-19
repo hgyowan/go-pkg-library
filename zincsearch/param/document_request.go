@@ -32,4 +32,5 @@ type DocumentSearchESRequest struct {
 	Query *model.QueryRequest `json:"query,omitempty"`
 	From  int                 `json:"from,omitempty"`
 	Size  int                 `json:"size,omitempty"`
+	Sort  []map[string]string `json:"sort,omitempty"`
 }
