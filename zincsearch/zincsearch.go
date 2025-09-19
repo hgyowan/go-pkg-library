@@ -31,7 +31,7 @@ type ZinSearchConfig struct {
 func MustNewZincSearch(ctx context.Context, config *ZinSearchConfig) ZincSearch {
 	restyClient := resty.New().
 		SetContext(ctx).
-		SetBaseURL(fmt.Sprintf("http://%s:%s/api", config.Host, config.Port)).
+		SetBaseURL(fmt.Sprintf("http://%s:%s", config.Host, config.Port)).
 		SetBasicAuth(config.Username, config.Password).R()
 
 	// ping

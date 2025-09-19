@@ -3,6 +3,7 @@ package zincsearch
 import (
 	"context"
 	"github.com/hgyowan/go-pkg-library/envs"
+	"github.com/hgyowan/go-pkg-library/ngram"
 	"github.com/hgyowan/go-pkg-library/zincsearch/model"
 	"github.com/hgyowan/go-pkg-library/zincsearch/param"
 	"github.com/stretchr/testify/require"
@@ -118,4 +119,37 @@ func Test_ZincSearchDocument(t *testing.T) {
 		err = zs.Document("test").Delete(hit.ID)
 		require.NoError(t, err)
 	}
+}
+
+func Test_ZincSearchEsDocument(t *testing.T) {
+	zs := MustNewZincSearch(context.Background(), &ZinSearchConfig{
+		Host:     envs.ZincSearchHost,
+		Port:     envs.ZincSearchPort,
+		Username: envs.ZincSearchUserName,
+		Password: envs.ZincSearchPassword,
+	})
+
+	res, err := zs.Document("saints").SearchES(&param.DocumentSearchESRequest{
+		Query: &model.QueryRequest{
+			Bool: &model.BoolQuery{
+				Must: []model.QueryCondition{
+					{
+						Match: map[string]string{
+							"name": ngram.HmacToken("김"),
+						},
+					},
+					{
+						Match: map[string]string{
+							"name_order": "44655610160",
+						},
+					},
+				},
+				Filter: nil,
+			},
+		},
+		From: 0,
+		Size: 10,
+	})
+	require.NoError(t, err)
+	t.Log(res)
 }

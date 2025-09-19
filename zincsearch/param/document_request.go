@@ -27,3 +27,9 @@ type DocumentSearchRequest struct {
 	MaxResults int                 `json:"max_results,omitempty"`
 	Source     []string            `json:"_source,omitempty"`
 }
+
+type DocumentSearchESRequest struct {
+	Query *model.QueryRequest `json:"query,omitempty"`
+	From  int                 `json:"from,omitempty"`
+	Size  int                 `json:"size,omitempty"`
+}

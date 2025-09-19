@@ -24,7 +24,7 @@ type zinSearchIndex struct {
 }
 
 func (z *zinSearchIndex) Create(index *model.Index) error {
-	res, err := z.zinSearchCli.SetBody(index).Post("/index")
+	res, err := z.zinSearchCli.SetBody(index).Post("/api/index")
 	if err != nil {
 		return pkgError.Wrap(err)
 	}
@@ -37,7 +37,7 @@ func (z *zinSearchIndex) Create(index *model.Index) error {
 }
 
 func (z *zinSearchIndex) UpdateMappings(request *param.IndexUpdateMappingRequest) error {
-	res, err := z.zinSearchCli.SetBody(request.Mappings).Put("/" + request.IndexName + "/_mapping")
+	res, err := z.zinSearchCli.SetBody(request.Mappings).Put("/api/" + request.IndexName + "/_mapping")
 	if err != nil {
 		return pkgError.Wrap(err)
 	}
@@ -50,7 +50,7 @@ func (z *zinSearchIndex) UpdateMappings(request *param.IndexUpdateMappingRequest
 }
 
 func (z *zinSearchIndex) UpdateSettings(request *param.IndexUpdateSettingsRequest) error {
-	res, err := z.zinSearchCli.SetBody(request.Settings).Put("/" + request.IndexName + "/_settings")
+	res, err := z.zinSearchCli.SetBody(request.Settings).Put("/api/" + request.IndexName + "/_settings")
 	if err != nil {
 		return pkgError.Wrap(err)
 	}
@@ -63,7 +63,7 @@ func (z *zinSearchIndex) UpdateSettings(request *param.IndexUpdateSettingsReques
 }
 
 func (z *zinSearchIndex) Delete(indexName string) error {
-	res, err := z.zinSearchCli.Delete("/index/" + indexName)
+	res, err := z.zinSearchCli.Delete("/api/index/" + indexName)
 	if err != nil {
 		return pkgError.Wrap(err)
 	}
@@ -101,7 +101,7 @@ func (z *zinSearchIndex) List(request *param.IndexListRequest) (*param.IndexList
 	res, err := z.zinSearchCli.
 		SetQueryParams(queryParams).
 		SetResult(&resp).
-		Get("/index")
+		Get("/api/index")
 	if err != nil {
 		return nil, pkgError.Wrap(err)
 	}
@@ -114,7 +114,7 @@ func (z *zinSearchIndex) List(request *param.IndexListRequest) (*param.IndexList
 }
 
 func (z *zinSearchIndex) Exists(indexName string) (bool, error) {
-	res, err := z.zinSearchCli.Get("/index/" + indexName)
+	res, err := z.zinSearchCli.Get("/api/index/" + indexName)
 	if err != nil {
 		return false, pkgError.Wrap(err)
 	}
