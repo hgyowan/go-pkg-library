@@ -31,5 +31,4 @@ var businessCodeMap = map[Code]Status{
 	InvalidFileType:          {int(InvalidFileType), http.StatusBadRequest, "invalid file type", nil, nil},
 	MisMatchOwnerName:        {int(MisMatchOwnerName), http.StatusInternalServerError, "mismatch owner name", nil, nil},
 	SettlementInProgress:     {int(SettlementInProgress), http.StatusInternalServerError, "settlement in progress", nil, nil},
-	AlreadyExistsTransaction: {int(AlreadyExistsTransaction), http.StatusInternalServerError, "already exists transaction", nil, nil},
 }

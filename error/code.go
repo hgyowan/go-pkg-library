@@ -39,6 +39,5 @@ const (
 
 	MisMatchOwnerName Code = 70001
 
-	SettlementInProgress     Code = 80001
-	AlreadyExistsTransaction Code = 80002
+	SettlementInProgress Code = 80001
 )
