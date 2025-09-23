@@ -38,6 +38,7 @@ const (
 	InvalidFileType Code = 60001
 
 	MisMatchOwnerName Code = 70001
+	NotAllowedOwner   Code = 70002
 
 	SettlementInProgress Code = 80001
 )
