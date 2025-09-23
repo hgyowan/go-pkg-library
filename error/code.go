@@ -34,6 +34,7 @@ const (
 	InvalidSSOAccount        Code = 50004
 	InvalidPassword          Code = 50005
 	AlreadyExistsEmail       Code = 50006
+	WithdrawalPending        Code = 50007
 
 	InvalidFileType Code = 60001
 

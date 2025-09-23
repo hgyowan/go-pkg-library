@@ -20,6 +20,7 @@ var businessCodeMap = map[Code]Status{
 	InvalidSSOAccount:        {int(InvalidSSOAccount), http.StatusBadRequest, "invalid sso account", nil, nil},
 	InvalidPassword:          {int(InvalidPassword), http.StatusBadRequest, "invalid password", nil, nil},
 	AlreadyExistsEmail:       {int(AlreadyExistsEmail), http.StatusInternalServerError, "already exists email", nil, nil},
+	WithdrawalPending:        {int(WithdrawalPending), http.StatusInternalServerError, "withdrawal pending", nil, nil},
 	WrongParam:               {int(WrongParam), http.StatusBadRequest, "wrong parameters", nil, nil},
 	Duplicate:                {int(Duplicate), http.StatusInternalServerError, "duplicate data", nil, nil},
 	Expired:                  {int(Expired), http.StatusInternalServerError, "expired data", nil, nil},
