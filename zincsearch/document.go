@@ -1,6 +1,7 @@
 package zincsearch
 
 import (
+	"fmt"
 	pkgError "github.com/hgyowan/go-pkg-library/error"
 	"github.com/hgyowan/go-pkg-library/zincsearch/model"
 	"github.com/hgyowan/go-pkg-library/zincsearch/param"
@@ -21,9 +22,11 @@ type zinSearchDocument struct {
 	zinSearchCli *resty.Request
 	errHandler   func(body io.ReadCloser) error
 	indexName    string
+	options      options
 }
 
 func (z *zinSearchDocument) Create(request *param.DocumentCreateRequest) error {
+	z.indexName = fmt.Sprintf("%s%s", z.indexName, z.options.getSuffix())
 	res, err := z.zinSearchCli.SetBody(map[string]interface{}{
 		request.Document.Key: request.Document.Val,
 	}).Put("/api/" + z.indexName + "/_doc/" + request.ID)
@@ -39,6 +42,7 @@ func (z *zinSearchDocument) Create(request *param.DocumentCreateRequest) error {
 }
 
 func (z *zinSearchDocument) Update(request *param.DocumentUpdateRequest) error {
+	z.indexName = fmt.Sprintf("%s%s", z.indexName, z.options.getSuffix())
 	res, err := z.zinSearchCli.SetBody(map[string]interface{}{
 		request.Document.Key: request.Document.Val,
 	}).Post("/api/" + z.indexName + "/_update/" + request.ID)
@@ -54,6 +58,7 @@ func (z *zinSearchDocument) Update(request *param.DocumentUpdateRequest) error {
 }
 
 func (z *zinSearchDocument) Delete(id string) error {
+	z.indexName = fmt.Sprintf("%s%s", z.indexName, z.options.getSuffix())
 	res, err := z.zinSearchCli.Delete("/api/" + z.indexName + "/_doc/" + id)
 	if err != nil {
 		return pkgError.Wrap(err)
@@ -67,6 +72,7 @@ func (z *zinSearchDocument) Delete(id string) error {
 }
 
 func (z *zinSearchDocument) BulkV2(request []map[string]interface{}) error {
+	z.indexName = fmt.Sprintf("%s%s", z.indexName, z.options.getSuffix())
 	res, err := z.zinSearchCli.SetBody(&param.DocumentBulkV2Request{
 		Index:   z.indexName,
 		Records: request,
@@ -83,6 +89,7 @@ func (z *zinSearchDocument) BulkV2(request []map[string]interface{}) error {
 }
 
 func (z *zinSearchDocument) Search(request *param.DocumentSearchRequest) (*model.DocumentSearch, error) {
+	z.indexName = fmt.Sprintf("%s%s", z.indexName, z.options.getSuffix())
 	var resp *model.DocumentSearch
 	res, err := z.zinSearchCli.
 		SetBody(request).
@@ -100,6 +107,7 @@ func (z *zinSearchDocument) Search(request *param.DocumentSearchRequest) (*model
 }
 
 func (z *zinSearchDocument) SearchES(request *param.DocumentSearchESRequest) (*model.DocumentSearch, error) {
+	z.indexName = fmt.Sprintf("%s%s", z.indexName, z.options.getSuffix())
 	var resp *model.DocumentSearch
 	res, err := z.zinSearchCli.
 		SetBody(request).
@@ -121,5 +129,6 @@ func (z *zincSearch) Document(indexName string) Document {
 		zinSearchCli: z.cli,
 		errHandler:   z.errHandler,
 		indexName:    indexName,
+		options:      z.options,
 	}
 }

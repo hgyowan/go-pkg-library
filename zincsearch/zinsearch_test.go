@@ -127,7 +127,9 @@ func Test_ZincSearchEsDocument(t *testing.T) {
 		Port:     envs.ZincSearchPort,
 		Username: envs.ZincSearchUserName,
 		Password: envs.ZincSearchPassword,
-	})
+	}, WithSuffix(func() string {
+		return "_dev"
+	}))
 
 	res, err := zs.Document("saints").SearchES(&param.DocumentSearchESRequest{
 		Query: &model.QueryRequest{

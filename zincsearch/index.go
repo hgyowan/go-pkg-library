@@ -1,6 +1,7 @@
 package zincsearch
 
 import (
+	"fmt"
 	pkgError "github.com/hgyowan/go-pkg-library/error"
 	"github.com/hgyowan/go-pkg-library/zincsearch/model"
 	"github.com/hgyowan/go-pkg-library/zincsearch/param"
@@ -21,9 +22,11 @@ type Index interface {
 type zinSearchIndex struct {
 	zinSearchCli *resty.Request
 	errHandler   func(body io.ReadCloser) error
+	options      options
 }
 
 func (z *zinSearchIndex) Create(index *model.Index) error {
+	index.Name = fmt.Sprintf("%s%s", index.Name, z.options.getSuffix())
 	res, err := z.zinSearchCli.SetBody(index).Post("/api/index")
 	if err != nil {
 		return pkgError.Wrap(err)
@@ -37,6 +40,7 @@ func (z *zinSearchIndex) Create(index *model.Index) error {
 }
 
 func (z *zinSearchIndex) UpdateMappings(request *param.IndexUpdateMappingRequest) error {
+	request.IndexName = fmt.Sprintf("%s%s", request.IndexName, z.options.getSuffix())
 	res, err := z.zinSearchCli.SetBody(request.Mappings).Put("/api/" + request.IndexName + "/_mapping")
 	if err != nil {
 		return pkgError.Wrap(err)
@@ -50,6 +54,7 @@ func (z *zinSearchIndex) UpdateMappings(request *param.IndexUpdateMappingRequest
 }
 
 func (z *zinSearchIndex) UpdateSettings(request *param.IndexUpdateSettingsRequest) error {
+	request.IndexName = fmt.Sprintf("%s%s", request.IndexName, z.options.getSuffix())
 	res, err := z.zinSearchCli.SetBody(request.Settings).Put("/api/" + request.IndexName + "/_settings")
 	if err != nil {
 		return pkgError.Wrap(err)
@@ -63,6 +68,7 @@ func (z *zinSearchIndex) UpdateSettings(request *param.IndexUpdateSettingsReques
 }
 
 func (z *zinSearchIndex) Delete(indexName string) error {
+	indexName = fmt.Sprintf("%s%s", indexName, z.options.getSuffix())
 	res, err := z.zinSearchCli.Delete("/api/index/" + indexName)
 	if err != nil {
 		return pkgError.Wrap(err)
@@ -78,6 +84,7 @@ func (z *zinSearchIndex) Delete(indexName string) error {
 func (z *zinSearchIndex) List(request *param.IndexListRequest) (*param.IndexListResponse, error) {
 	queryParams := make(map[string]string)
 	if request.Name != "" {
+		request.Name = fmt.Sprintf("%s%s", request.Name, z.options.getSuffix())
 		queryParams["name"] = request.Name
 	}
 
@@ -114,6 +121,7 @@ func (z *zinSearchIndex) List(request *param.IndexListRequest) (*param.IndexList
 }
 
 func (z *zinSearchIndex) Exists(indexName string) (bool, error) {
+	indexName = fmt.Sprintf("%s%s", indexName, z.options.getSuffix())
 	res, err := z.zinSearchCli.Get("/api/index/" + indexName)
 	if err != nil {
 		return false, pkgError.Wrap(err)
@@ -130,5 +138,6 @@ func (z *zincSearch) Index() Index {
 	return &zinSearchIndex{
 		zinSearchCli: z.cli,
 		errHandler:   z.errHandler,
+		options:      z.options,
 	}
 }

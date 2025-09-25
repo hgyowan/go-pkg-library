@@ -19,6 +19,7 @@ type ZincSearch interface {
 type zincSearch struct {
 	cli        *resty.Request
 	errHandler func(body io.ReadCloser) error
+	options    options
 }
 
 type ZinSearchConfig struct {
@@ -28,7 +29,7 @@ type ZinSearchConfig struct {
 	Password string
 }
 
-func MustNewZincSearch(ctx context.Context, config *ZinSearchConfig) ZincSearch {
+func MustNewZincSearch(ctx context.Context, config *ZinSearchConfig, opts ...ZincSearchOption) ZincSearch {
 	restyClient := resty.New().
 		SetContext(ctx).
 		SetBaseURL(fmt.Sprintf("http://%s:%s", config.Host, config.Port)).
@@ -40,7 +41,7 @@ func MustNewZincSearch(ctx context.Context, config *ZinSearchConfig) ZincSearch 
 		pkgLogger.ZapLogger.Logger.Fatal(err.Error())
 	}
 
-	return &zincSearch{
+	z := &zincSearch{
 		cli: restyClient,
 		errHandler: func(body io.ReadCloser) error {
 			var resp model.ErrorResponse
@@ -51,4 +52,16 @@ func MustNewZincSearch(ctx context.Context, config *ZinSearchConfig) ZincSearch 
 			return pkgError.WrapWithMessage(pkgError.EmptyBusinessError(), resp.Error)
 		},
 	}
+
+	for _, opt := range opts {
+		opt(z)
+	}
+
+	if z.options.getSuffix == nil {
+		z.options.getSuffix = func() string {
+			return ""
+		}
+	}
+
+	return z
 }
