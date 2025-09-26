@@ -15,6 +15,7 @@ const (
 	TemplateKeyVerifyEmail      EmailTemplateKey = iota + 1
 	TemplateKeyInviteSendEmail  EmailTemplateKey = iota + 1
 	TemplateKeyJoinMessageEmail EmailTemplateKey = iota + 1
+	TemplateKeyJoinConfirmEmail EmailTemplateKey = iota + 1
 	_mime                                        = "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
 )
 
