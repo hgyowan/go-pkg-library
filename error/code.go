@@ -18,6 +18,7 @@ const (
 	Email   Code = 30001
 	Kakao   Code = 30002
 	OdCloud Code = 30003
+	Google  Code = 30004
 
 	WrongParam    Code = 40001
 	Duplicate     Code = 40002

@@ -44,10 +44,15 @@ var (
 	SMTPSender   = getEnv("SMTP_SENDER", "")
 	NASTLSHost   = getEnv("NAS_TLS_HOST", "")
 
-	KakaoGranTType    = getEnv("KAKAO_GRANT_TYPE", "")
+	KakaoGrantType    = getEnv("KAKAO_GRANT_TYPE", "")
 	KakaoClientID     = getEnv("KAKAO_CLIENT_ID", "")
 	KakaoRedirectURI  = getEnv("KAKAO_REDIRECT_URI", "")
 	KakaoClientSecret = getEnv("KAKAO_CLIENT_SECRET", "")
+
+	GoogleGrantType    = getEnv("GOOGLE_GRANT_TYPE", "")
+	GoogleClientID     = getEnv("GOOGLE_CLIENT_ID", "")
+	GoogleClientSecret = getEnv("GOOGLE_CLIENT_SECRET", "")
+	GoogleRedirectURI  = getEnv("GOOGLE_REDIRECT_URI", "")
 
 	JwtAccessSecret  = getEnv("JWT_ACCESS_SECRET", "")
 	JwtRefreshSecret = getEnv("JWT_REFRESH_SECRET", "")
