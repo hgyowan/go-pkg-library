@@ -1,6 +1,9 @@
 package variable
 
-import "math"
+import (
+	"encoding/hex"
+	"math"
+)
 
 func GetSafeValue[TYPE any](targetValue *TYPE, defaultValue TYPE) TYPE {
 	if targetValue != nil {
@@ -22,10 +25,14 @@ func GetSafeNaNValue(value float64) float64 {
 	return value
 }
 
-func ToSortableNumber(name string) int64 {
+func ToSortableNumber(s string) int64 {
 	var sum int64
-	for _, r := range name {
+	for _, r := range s {
 		sum = sum*1000 + int64(r)
 	}
 	return sum
+}
+
+func ToSortableHex(s string) string {
+	return hex.EncodeToString([]byte(s))
 }
