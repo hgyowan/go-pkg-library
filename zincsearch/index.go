@@ -127,6 +127,10 @@ func (z *zinSearchIndex) Exists(indexName string) (bool, error) {
 		return false, pkgError.Wrap(err)
 	}
 
+	if res.StatusCode() == 404 {
+		return false, nil
+	}
+
 	if res.StatusCode() != 200 {
 		return false, pkgError.Wrap(z.errHandler(res.Body))
 	}
