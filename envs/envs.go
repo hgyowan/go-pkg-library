@@ -31,6 +31,7 @@ var (
 	CFMAccountGRPC  = getEnv("CFM_ACCOUNT_GRPC", "")
 	CFMHost         = getEnv("CFM_HOST", "")
 	CFMCookieDomain = getEnv("CFM_COOKIE_DOMAIN", "")
+	MailGRPC        = getEnv("MAIL_GRPC", "")
 
 	RedisAddr       = getEnv("REDIS_ADDR", "")
 	RedisPort       = getEnv("REDIS_PORT", "6379")
