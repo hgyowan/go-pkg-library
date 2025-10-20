@@ -76,6 +76,10 @@ var (
 	CFMBucket    = getEnv("CFM_BUCKET", "")
 
 	OdCloudServiceKey = getEnv("ODCLOUD_SERVICE_KEY", "")
+
+	EmailQueueTopic  = getEnv("EMAIL_QUEUE_TOPIC", "")
+	EmailQueueGroup  = getEnv("EMAIL_QUEUE_GROUP", "")
+	EmailQueueBroker = getEnv("EMAIL_QUEUE_BROKER", "")
 )
 
 func getEnv(envName, defaultVal string) string {
