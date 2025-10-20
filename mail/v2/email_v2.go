@@ -5,8 +5,6 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
-	pkgError "github.com/hgyowan/go-pkg-library/error"
-	pkgLogger "github.com/hgyowan/go-pkg-library/logger"
 	"net"
 	"net/smtp"
 	"os"
@@ -14,6 +12,10 @@ import (
 	"sync"
 	"text/template"
 	"time"
+
+	"github.com/hgyowan/go-pkg-library/envs"
+	pkgError "github.com/hgyowan/go-pkg-library/error"
+	pkgLogger "github.com/hgyowan/go-pkg-library/logger"
 )
 
 type EmailConfig struct {
@@ -189,7 +191,7 @@ func (e *emailSender) connect(cfg *EmailConfig) (*smtp.Client, error) {
 	}
 
 	if ok, _ := c.Extension("STARTTLS"); ok {
-		tlsConfig := &tls.Config{ServerName: cfg.SMTPHost}
+		tlsConfig := &tls.Config{ServerName: envs.NASTLSHost}
 		if err = c.StartTLS(tlsConfig); err != nil {
 			_ = c.Close()
 			return nil, pkgError.Wrap(err)
