@@ -154,4 +154,7 @@ func Test_ZincSearchEsDocument(t *testing.T) {
 	})
 	require.NoError(t, err)
 	t.Log(res)
+
+	err = zs.Document("users").Delete("test")
+	require.NoError(t, err)
 }

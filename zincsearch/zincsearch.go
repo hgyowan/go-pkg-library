@@ -49,6 +49,11 @@ func MustNewZincSearch(ctx context.Context, config *ZinSearchConfig, opts ...Zin
 				return pkgError.Wrap(err)
 			}
 
+			switch resp.Error {
+			case "id not found":
+				return pkgError.WrapWithCode(pkgError.EmptyBusinessError(), pkgError.NotFound)
+			}
+
 			return pkgError.WrapWithMessage(pkgError.EmptyBusinessError(), resp.Error)
 		},
 	}
