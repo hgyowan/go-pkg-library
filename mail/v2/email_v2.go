@@ -5,6 +5,7 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
+	"mime"
 	"net"
 	"net/smtp"
 	"os"
@@ -217,9 +218,10 @@ func (e *emailSender) sendMailWithTemplateV2(r *Recipient, client *smtp.Client) 
 		return EmailErrorTemplateExecute
 	}
 
+	encodedSubject := mime.QEncoding.Encode("utf-8", r.Subject)
 	headers := "From: " + e.conf.SMTPSender + "\r\n" +
 		"To: " + strings.Join(r.ToEmails, ", ") + "\r\n" +
-		"Subject: " + r.Subject + "\r\n" +
+		"Subject: " + encodedSubject + "\r\n" +
 		"MIME-Version: 1.0\r\n" +
 		"Content-Type: text/html; charset=\"utf-8\"\r\n\r\n"
 
