@@ -38,6 +38,8 @@ const (
 	WithdrawalPending        Code = 50007
 
 	InvalidFileType Code = 60001
+	FailReadFile    Code = 60002
+	FailWriteFile   Code = 60003
 
 	MisMatchOwnerName Code = 70001
 	NotAllowedOwner   Code = 70002

@@ -31,6 +31,8 @@ var businessCodeMap = map[Code]Status{
 	CanNotEmpty:              {int(CanNotEmpty), http.StatusInternalServerError, "can not empty", nil, nil},
 	AlreadyExists:            {int(AlreadyExists), http.StatusInternalServerError, "already exists", nil, nil},
 	InvalidFileType:          {int(InvalidFileType), http.StatusBadRequest, "invalid file type", nil, nil},
+	FailReadFile:             {int(FailReadFile), http.StatusInternalServerError, "fail read file", nil, nil},
+	FailWriteFile:            {int(FailWriteFile), http.StatusInternalServerError, "fail write file", nil, nil},
 	MisMatchOwnerName:        {int(MisMatchOwnerName), http.StatusInternalServerError, "mismatch owner name", nil, nil},
 	NotAllowedOwner:          {int(NotAllowedOwner), http.StatusInternalServerError, "not allowed owner", nil, nil},
 	SettlementInProgress:     {int(SettlementInProgress), http.StatusInternalServerError, "settlement in progress", nil, nil},
