@@ -37,9 +37,10 @@ const (
 	AlreadyExistsEmail       Code = 50006
 	WithdrawalPending        Code = 50007
 
-	InvalidFileType Code = 60001
-	FailReadFile    Code = 60002
-	FailWriteFile   Code = 60003
+	InvalidFileType  Code = 60001
+	FailReadFile     Code = 60002
+	FailWriteFile    Code = 60003
+	FileSizeExceeded Code = 60004
 
 	MisMatchOwnerName Code = 70001
 	NotAllowedOwner   Code = 70002
