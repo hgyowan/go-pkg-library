@@ -41,9 +41,9 @@ func GenerateHmacTokens(input string) []string {
 	input = strings.ToLower(input)
 	var tokens []string
 	if isKorean(input) {
-		tokens = tokenizeNgram(input, 1, 3)
+		tokens = tokenizeNgram(input, 1, len([]rune(input)))
 	} else {
-		tokens = tokenizeNgram(input, 2, 4)
+		tokens = tokenizeNgram(input, 2, len([]rune(input)))
 	}
 
 	var encrypted []string
