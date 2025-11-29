@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+
 	"google.golang.org/grpc/metadata"
 )
 
@@ -48,8 +49,6 @@ type Option interface {
 	Apply(defaultContext *DefaultContext)
 }
 
-// Deprecated: NewContext Use ParseContent
-
 func IncomingContext(ctx context.Context, option ...Option) *DefaultContext {
 	// default 설정
 	dc := &DefaultContext{
@@ -66,10 +65,9 @@ func IncomingContext(ctx context.Context, option ...Option) *DefaultContext {
 
 func OutgoingContext(ctx context.Context, option ...Option) *DefaultContext {
 	if md, ok := metadata.FromIncomingContext(ctx); ok {
-		ctx = metadata.NewOutgoingContext(context.Background(), md)
-	} else {
-		ctx = context.Background()
+		ctx = metadata.NewOutgoingContext(ctx, md)
 	}
+
 	// default 설정
 	dc := &DefaultContext{
 		Context: ctx,
