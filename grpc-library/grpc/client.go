@@ -1,11 +1,12 @@
 package grpc
 
 import (
+	"time"
+
 	"github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/retry"
 	"github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/timeout"
 	pkgLogger "github.com/hgyowan/go-pkg-library/logger"
-	"time"
-
+	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials/insecure"
@@ -29,6 +30,7 @@ func MustNewGRPCClient(address string) *grpc.ClientConn {
 			Timeout:             3 * time.Second,
 			PermitWithoutStream: true,
 		}),
+		grpc.WithStatsHandler(otelgrpc.NewClientHandler()),
 	)
 
 	if err != nil {

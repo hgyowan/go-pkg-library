@@ -3,21 +3,23 @@ package grpc
 import (
 	"context"
 	"errors"
-	"github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/recovery"
-	"github.com/hgyowan/go-pkg-library/envs"
-	pkgError "github.com/hgyowan/go-pkg-library/error"
-	pkgLogger "github.com/hgyowan/go-pkg-library/logger"
-	"github.com/oklog/run"
-	"go.uber.org/zap"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/health/grpc_health_v1"
-	"google.golang.org/grpc/keepalive"
 	"net"
 	"os"
 	"os/signal"
 	"strings"
 	"syscall"
 	"time"
+
+	"github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/recovery"
+	"github.com/hgyowan/go-pkg-library/envs"
+	pkgError "github.com/hgyowan/go-pkg-library/error"
+	pkgLogger "github.com/hgyowan/go-pkg-library/logger"
+	"github.com/oklog/run"
+	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
+	"go.uber.org/zap"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/health/grpc_health_v1"
+	"google.golang.org/grpc/keepalive"
 )
 
 const (
@@ -54,6 +56,7 @@ func MustNewGRPCServer() GrpcServer {
 			MaxConnectionAge:      3 * time.Minute,
 			MaxConnectionAgeGrace: 30 * time.Second,
 		}),
+		grpc.StatsHandler(otelgrpc.NewServerHandler()),
 	)
 
 	s.srv = srv
