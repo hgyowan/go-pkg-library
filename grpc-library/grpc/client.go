@@ -18,6 +18,7 @@ func MustNewGRPCClient(address string) *grpc.ClientConn {
 		grpc.WithChainUnaryInterceptor(
 			timeout.UnaryClientInterceptor(30*time.Second),
 			withGrpcRetryBackoffInterceptor(),
+			TraceClientInterceptor(),
 		),
 		grpc.WithDefaultCallOptions(
 			grpc.MaxCallRecvMsgSize(100*1024*1024),
