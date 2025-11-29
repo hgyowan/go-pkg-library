@@ -39,13 +39,14 @@ func MustNewGRPCServer() GrpcServer {
 	s := &server{}
 
 	srv := grpc.NewServer(
+		grpc.StatsHandler(otelgrpc.NewServerHandler()),
 		grpc.ChainUnaryInterceptor(
-			CustomErrorUnaryInterceptor,
 			recovery.UnaryServerInterceptor(),
+			CustomErrorUnaryInterceptor,
 		),
 		grpc.ChainStreamInterceptor(
-			CustomErrorStreamInterceptor,
 			recovery.StreamServerInterceptor(),
+			CustomErrorStreamInterceptor,
 		),
 		grpc.KeepaliveEnforcementPolicy(keepalive.EnforcementPolicy{
 			MinTime:             time.Minute,
@@ -56,7 +57,6 @@ func MustNewGRPCServer() GrpcServer {
 			MaxConnectionAge:      3 * time.Minute,
 			MaxConnectionAgeGrace: 30 * time.Second,
 		}),
-		grpc.StatsHandler(otelgrpc.NewServerHandler()),
 	)
 
 	s.srv = srv
