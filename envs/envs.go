@@ -80,6 +80,8 @@ var (
 	EmailQueueTopic  = getEnv("EMAIL_QUEUE_TOPIC", "")
 	EmailQueueGroup  = getEnv("EMAIL_QUEUE_GROUP", "")
 	EmailQueueBroker = getEnv("EMAIL_QUEUE_BROKER", "")
+
+	OpenTelemetryEndpoint = getEnv("OPENTELEMETRY_ENDPOINT", "")
 )
 
 func getEnv(envName, defaultVal string) string {
