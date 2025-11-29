@@ -3,12 +3,15 @@ package grpc
 import (
 	"context"
 	"encoding/json"
+	"net/http"
+
 	pkgError "github.com/hgyowan/go-pkg-library/error"
 	pkgLogger "github.com/hgyowan/go-pkg-library/logger"
+	otelCodes "go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/trace"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"net/http"
 )
 
 func CustomErrorUnaryInterceptor(
@@ -19,6 +22,12 @@ func CustomErrorUnaryInterceptor(
 ) (resp interface{}, err error) {
 	resp, err = handler(ctx, req)
 	if err != nil {
+		span := trace.SpanFromContext(ctx)
+		if span != nil {
+			span.RecordError(err)
+			span.SetStatus(otelCodes.Code(codes.Internal), err.Error())
+		}
+
 		pkgLogger.ZapLogger.Logger.Error(err.Error())
 		castedErr, ok := pkgError.CastBusinessError(err)
 		if ok {
@@ -41,6 +50,12 @@ func CustomErrorStreamInterceptor(
 ) (err error) {
 	err = handler(srv, req)
 	if err != nil {
+		span := trace.SpanFromContext(req.Context())
+		if span != nil {
+			span.RecordError(err)
+			span.SetStatus(otelCodes.Code(codes.Internal), err.Error())
+		}
+
 		pkgLogger.ZapLogger.Logger.Error(err.Error())
 		castedErr, ok := pkgError.CastBusinessError(err)
 		if ok {
