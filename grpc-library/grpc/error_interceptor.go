@@ -28,7 +28,7 @@ func CustomErrorUnaryInterceptor(
 		span := trace.SpanFromContext(ctx)
 		if span != nil {
 			span.RecordError(err)
-			span.SetStatus(otelCodes.Code(codes.Internal), err.Error())
+			span.SetStatus(otelCodes.Error, err.Error())
 
 			sc := span.SpanContext()
 			traceID = sc.TraceID().String()
@@ -39,7 +39,7 @@ func CustomErrorUnaryInterceptor(
 		castedErr, ok := pkgError.CastBusinessError(err)
 		if ok {
 			b, _ := json.Marshal(castedErr.Status)
-			return nil, status.Errorf(codes.Internal, string(b))
+			return nil, status.Errorf(castedErr.Status.GRPCStatusCode, string(b))
 		}
 
 		b, _ := json.Marshal(pkgError.Status{
@@ -62,7 +62,7 @@ func CustomErrorStreamInterceptor(
 		span := trace.SpanFromContext(req.Context())
 		if span != nil {
 			span.RecordError(err)
-			span.SetStatus(otelCodes.Code(codes.Internal), err.Error())
+			span.SetStatus(otelCodes.Error, err.Error())
 
 			sc := span.SpanContext()
 			traceID = sc.TraceID().String()
@@ -73,7 +73,7 @@ func CustomErrorStreamInterceptor(
 		castedErr, ok := pkgError.CastBusinessError(err)
 		if ok {
 			b, _ := json.Marshal(castedErr.Status)
-			return status.Errorf(codes.Internal, string(b))
+			return status.Errorf(castedErr.Status.GRPCStatusCode, string(b))
 		}
 
 		b, _ := json.Marshal(pkgError.Status{

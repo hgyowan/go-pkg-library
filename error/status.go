@@ -1,11 +1,14 @@
 package error
 
+import "google.golang.org/grpc/codes"
+
 type Status struct {
 	Code           int         `json:"code"`
 	HttpStatusCode int         `json:"httpStatusCode"`
 	Message        string      `json:"message"`
 	Detail         []string    `json:"detail"`
 	Data           interface{} `json:"data"`
+	GRPCStatusCode codes.Code  `json:"gRPCStatusCode"`
 }
 
 func (curStatus *Status) Error() string {
