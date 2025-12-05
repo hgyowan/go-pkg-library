@@ -60,7 +60,14 @@ func (k *kafkaListener) Listen(ctx context.Context, events ...string) (<-chan []
 func (k *kafkaListener) ReceiveMessage(ctx context.Context, eventCh chan []Event, errorCh chan error, events []string, consumerID int) {
 	msg, err := k.reader.FetchMessage(ctx)
 	if err != nil {
-		errorCh <- pkgError.Wrap(err)
+		if ctx.Err() != nil {
+			return
+		}
+		select {
+		case errorCh <- pkgError.Wrap(err):
+		case <-ctx.Done():
+			return
+		}
 	}
 
 	var event Event

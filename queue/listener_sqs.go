@@ -110,7 +110,14 @@ func (s *SqsListener) ReceiveMessage(ctx context.Context, eventCh chan []Event, 
 		VisibilityTimeout:   s.visibilityTimeOut,
 	})
 	if err != nil {
-		errorCh <- pkgError.Wrap(err)
+		if ctx.Err() != nil {
+			return
+		}
+		select {
+		case errorCh <- pkgError.Wrap(err):
+		case <-ctx.Done():
+			return
+		}
 	}
 
 	receivedEvents := make([]Event, 0, len(receiveMsgResult.Messages))
