@@ -18,6 +18,7 @@ import (
 	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
+	ghealth "google.golang.org/grpc/health"
 	"google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/grpc/keepalive"
 )
@@ -29,14 +30,17 @@ const (
 type GrpcServer interface {
 	RegisterService(desc *grpc.ServiceDesc, impl any)
 	Serve(ctx context.Context, port string)
+	ShutdownHealth()
 }
 
 type server struct {
-	srv *grpc.Server
+	srv    *grpc.Server
+	health *ghealth.Server
 }
 
 func MustNewGRPCServer() GrpcServer {
-	s := &server{}
+	hs := ghealth.NewServer()
+	hs.SetServingStatus("*", grpc_health_v1.HealthCheckResponse_SERVING)
 
 	srv := grpc.NewServer(
 		grpc.StatsHandler(otelgrpc.NewServerHandler()),
@@ -59,13 +63,11 @@ func MustNewGRPCServer() GrpcServer {
 		}),
 	)
 
-	s.srv = srv
-
-	return s
+	return &server{srv: srv, health: hs}
 }
 
 func (s *server) Serve(ctx context.Context, port string) {
-	grpc_health_v1.RegisterHealthServer(s.srv, &server{})
+	grpc_health_v1.RegisterHealthServer(s.srv, s.health)
 	g := &run.Group{}
 
 	if port == "" {
@@ -107,6 +109,10 @@ func (s *server) Serve(ctx context.Context, port string) {
 			return ctx.Err()
 		case sig := <-sigCh:
 			pkgLogger.ZapLogger.Logger.Info("caught signal", zap.String("signal", sig.String()))
+
+			s.health.SetServingStatus("*", grpc_health_v1.HealthCheckResponse_NOT_SERVING)
+			time.Sleep(300 * time.Millisecond)
+
 			return nil
 		}
 	}, func(err error) {
@@ -121,14 +127,6 @@ func (s *server) RegisterService(desc *grpc.ServiceDesc, impl any) {
 	s.srv.RegisterService(desc, impl)
 }
 
-func (s *server) Check(ctx context.Context, req *grpc_health_v1.HealthCheckRequest) (*grpc_health_v1.HealthCheckResponse, error) {
-	return &grpc_health_v1.HealthCheckResponse{Status: grpc_health_v1.HealthCheckResponse_SERVING}, nil
-}
-
-func (s *server) Watch(*grpc_health_v1.HealthCheckRequest, grpc_health_v1.Health_WatchServer) error {
-	return nil
-}
-
-func (s *server) List(ctx context.Context, request *grpc_health_v1.HealthListRequest) (*grpc_health_v1.HealthListResponse, error) {
-	return nil, nil
+func (s *server) ShutdownHealth() {
+	s.health.SetServingStatus("*", grpc_health_v1.HealthCheckResponse_NOT_SERVING)
 }
