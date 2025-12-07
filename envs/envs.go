@@ -23,6 +23,7 @@ var (
 	DBHost        = getEnv("DB_HOST", "")
 	DBReplicaHost = getEnv("DB_REPLICA_HOST", "")
 	DBPort        = getEnv("DB_PORT", "")
+	DBReplicaPort = getEnv("DB_REPLICA_PORT", "")
 	DBName        = getEnv("DB_NAME", "")
 	DBUser        = getEnv("DB_USER", "")
 	DBPassword    = getEnv("DB_PASSWORD", "")
