@@ -20,11 +20,12 @@ var (
 
 	LogLevel = getEnv("LOG_LEVEL", "debug") //debug | info | warn | error |
 
-	DBHost     = getEnv("DB_HOST", "")
-	DBPort     = getEnv("DB_PORT", "")
-	DBName     = getEnv("DB_NAME", "")
-	DBUser     = getEnv("DB_USER", "")
-	DBPassword = getEnv("DB_PASSWORD", "")
+	DBHost        = getEnv("DB_HOST", "")
+	DBReplicaHost = getEnv("DB_REPLICA_HOST", "")
+	DBPort        = getEnv("DB_PORT", "")
+	DBName        = getEnv("DB_NAME", "")
+	DBUser        = getEnv("DB_USER", "")
+	DBPassword    = getEnv("DB_PASSWORD", "")
 
 	CFMAPIHost      = getEnv("CFM_API_HOST", "")
 	CFMCoreGRPC     = getEnv("CFM_CORE_GRPC", "")
