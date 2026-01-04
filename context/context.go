@@ -85,7 +85,7 @@ func (dc *DefaultContext) UserID() *DefaultContext {
 	if md, ok := metadata.FromIncomingContext(dc.Context); ok {
 		v := md.Get("userID")
 		if len(v) > 0 {
-			dc.contextData.UserID = v[0]
+			dc.contextData.UserID = v[len(v)-1]
 		} else {
 			if dc.valid.ValidUserID {
 				dc.Error(errors.New("userID is not supplied"))
@@ -112,7 +112,7 @@ func (dc *DefaultContext) RequestId() *DefaultContext {
 	if md, ok := metadata.FromIncomingContext(dc.Context); ok {
 		v := md.Get("requestID")
 		if len(v) > 0 {
-			dc.contextData.RequestID = v[0]
+			dc.contextData.RequestID = v[len(v)-1]
 		} else {
 			if dc.valid.ValidRequestID {
 				dc.Error(errors.New("requestID is not supplied"))
@@ -127,7 +127,7 @@ func (dc *DefaultContext) AccessToken() *DefaultContext {
 	if md, ok := metadata.FromIncomingContext(dc.Context); ok {
 		v := md.Get("accessToken")
 		if len(v) > 0 {
-			dc.contextData.AccessToken = v[0]
+			dc.contextData.AccessToken = v[len(v)-1]
 		} else {
 			if dc.valid.ValidUserID {
 				dc.Error(errors.New("accessToken is not supplied"))
@@ -148,7 +148,7 @@ func (dc *DefaultContext) IP() *DefaultContext {
 	if md, ok := metadata.FromIncomingContext(dc.Context); ok {
 		v := md.Get("ip")
 		if len(v) > 0 {
-			dc.contextData.IP = v[0]
+			dc.contextData.IP = v[len(v)-1]
 		} else {
 			if dc.valid.ValidIP {
 				dc.Error(errors.New("ip is not supplied"))
@@ -163,7 +163,7 @@ func (dc *DefaultContext) UserAgent() *DefaultContext {
 	if md, ok := metadata.FromIncomingContext(dc.Context); ok {
 		v := md.Get("userAgent")
 		if len(v) > 0 {
-			dc.contextData.UserAgent = v[0]
+			dc.contextData.UserAgent = v[len(v)-1]
 		} else {
 			if dc.valid.ValidUserAgent {
 				dc.Error(errors.New("userAgent is not supplied"))
@@ -178,7 +178,7 @@ func (dc *DefaultContext) SessionID() *DefaultContext {
 	if md, ok := metadata.FromIncomingContext(dc.Context); ok {
 		v := md.Get("SessionID")
 		if len(v) > 0 {
-			dc.contextData.SessionID = v[0]
+			dc.contextData.SessionID = v[len(v)-1]
 		} else {
 			if dc.valid.ValidSessionID {
 				dc.Error(errors.New("SessionID is not supplied"))
