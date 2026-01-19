@@ -36,6 +36,5 @@ type DocumentSearchESRequest struct {
 }
 
 type DocumentDeleteBulkESRequest struct {
-	Index string `json:"_index"`
-	ID    string `json:"_id"`
+	ID string `json:"_id"`
 }

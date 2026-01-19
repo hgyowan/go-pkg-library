@@ -119,8 +119,7 @@ func Test_ZincSearchDocument(t *testing.T) {
 	bulk := make([]*param.DocumentDeleteBulkESRequest, 0)
 	for _, hit := range res.Hits.Hits {
 		bulk = append(bulk, &param.DocumentDeleteBulkESRequest{
-			Index: "test",
-			ID:    hit.ID,
+			ID: hit.ID,
 		})
 	}
 

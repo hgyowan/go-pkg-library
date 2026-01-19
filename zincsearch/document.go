@@ -35,7 +35,7 @@ func (z *zinSearchDocument) DeleteBulkES(request []*param.DocumentDeleteBulkESRe
 	for _, r := range request {
 		line := map[string]interface{}{
 			"delete": map[string]string{
-				"_index": r.Index,
+				"_index": fmt.Sprintf("%s%s", z.indexName, z.options.getSuffix()),
 				"_id":    r.ID,
 			},
 		}
