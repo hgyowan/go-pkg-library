@@ -1,11 +1,14 @@
 package zincsearch
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"io"
+
 	pkgError "github.com/hgyowan/go-pkg-library/error"
 	"github.com/hgyowan/go-pkg-library/zincsearch/model"
 	"github.com/hgyowan/go-pkg-library/zincsearch/param"
-	"io"
 	"resty.dev/v3"
 )
 
@@ -16,6 +19,7 @@ type Document interface {
 	BulkV2(request []map[string]interface{}) error
 	Search(request *param.DocumentSearchRequest) (*model.DocumentSearch, error)
 	SearchES(request *param.DocumentSearchESRequest) (*model.DocumentSearch, error)
+	DeleteBulkES(request []*param.DocumentDeleteBulkESRequest) error
 }
 
 type zinSearchDocument struct {
@@ -23,6 +27,41 @@ type zinSearchDocument struct {
 	errHandler   func(body io.ReadCloser) error
 	indexName    string
 	options      options
+}
+
+func (z *zinSearchDocument) DeleteBulkES(request []*param.DocumentDeleteBulkESRequest) error {
+	var buf bytes.Buffer
+
+	for _, r := range request {
+		line := map[string]interface{}{
+			"delete": map[string]string{
+				"_index": r.Index,
+				"_id":    r.ID,
+			},
+		}
+
+		b, err := json.Marshal(line)
+		if err != nil {
+			return pkgError.Wrap(err)
+		}
+
+		buf.Write(b)
+		buf.WriteByte('\n')
+	}
+
+	res, err := z.zinSearchCli.
+		SetBody(buf.Bytes()).
+		SetHeader("Content-Type", "application/x-ndjson").
+		Post("/es/_bulk")
+	if err != nil {
+		return pkgError.Wrap(err)
+	}
+
+	if res.StatusCode() != 200 {
+		return pkgError.Wrap(z.errHandler(res.Body))
+	}
+
+	return nil
 }
 
 func (z *zinSearchDocument) Create(request *param.DocumentCreateRequest) error {

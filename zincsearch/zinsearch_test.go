@@ -2,12 +2,13 @@ package zincsearch
 
 import (
 	"context"
+	"testing"
+
 	"github.com/hgyowan/go-pkg-library/envs"
 	"github.com/hgyowan/go-pkg-library/ngram"
 	"github.com/hgyowan/go-pkg-library/zincsearch/model"
 	"github.com/hgyowan/go-pkg-library/zincsearch/param"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func Test_ZincSearchIndex(t *testing.T) {
@@ -115,10 +116,16 @@ func Test_ZincSearchDocument(t *testing.T) {
 	require.NoError(t, err)
 	t.Log(res)
 
+	bulk := make([]*param.DocumentDeleteBulkESRequest, 0)
 	for _, hit := range res.Hits.Hits {
-		err = zs.Document("test").Delete(hit.ID)
-		require.NoError(t, err)
+		bulk = append(bulk, &param.DocumentDeleteBulkESRequest{
+			Index: "test",
+			ID:    hit.ID,
+		})
 	}
+
+	err = zs.Document("test").DeleteBulkES(bulk)
+	require.NoError(t, err)
 }
 
 func Test_ZincSearchEsDocument(t *testing.T) {

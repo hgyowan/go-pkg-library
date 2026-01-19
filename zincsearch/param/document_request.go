@@ -34,3 +34,8 @@ type DocumentSearchESRequest struct {
 	Size  int                 `json:"size,omitempty"`
 	Sort  []map[string]string `json:"sort,omitempty"`
 }
+
+type DocumentDeleteBulkESRequest struct {
+	Index string `json:"_index"`
+	ID    string `json:"_id"`
+}
